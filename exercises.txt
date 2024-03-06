@@ -49,3 +49,22 @@ JOIN (
 	SELECT MIN(Price) AS MinPrice
 	FROM Products
 	) AS MinPriceTable ON p.Price = MinPriceTable.MinPrice
+
+11.
+SELECT p.ProductName
+FROM Products p
+JOIN (
+	SELECT MIN(Price) AS MinPrice
+	FROM Products
+	) AS MinPriceTable 
+	ON p.Price <= 2 * MinPriceTable.MinPrice
+
+12.
+SELECT o.OrderId, SUM(p.Price) as TotalPrice
+FROM Orders o 
+JOIN OrderDetails od ON o.OrderId = od.OrderId
+JOIN Products p ON p.ProductId = od.ProductId
+GROUP BY o.OrderId
+HAVING SUM(p.Price) BETWEEN 100 AND 200
+
+13.
