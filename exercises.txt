@@ -1,0 +1,6 @@
+1. 
+SELECT ProductName, 2*Price as PriceDouble
+FROM Products
+
+2.
+
