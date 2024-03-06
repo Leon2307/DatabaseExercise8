@@ -3,4 +3,13 @@ SELECT ProductName, 2*Price as PriceDouble
 FROM Products
 
 2.
+SELECT ProductName, LEN(ProductName) as NameLength
+FROM Products
+
+3.
+SELECT ProductName, LEN(ProductName) as NameLength
+FROM Products
+WHERE LEN(ProductName) < 20;
+
+4.
 
