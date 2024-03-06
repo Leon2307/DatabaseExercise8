@@ -97,3 +97,12 @@ FROM
 GROUP BY s.StoreId, s.StoreName
 
 15.
+SELECT 
+	CONCAT(e.FirstName, ' ', e.LastName) as EmployeeFullName
+FROM
+	Employee e
+WHERE 
+	e.StoreId = (SELECT StoreId
+				FROM StoreSalesTotals
+				WHERE TotalSales = (SELECT MAX(TotalSales) 
+						    FROM StoreSalesTotals)) 
