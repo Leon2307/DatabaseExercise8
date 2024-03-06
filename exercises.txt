@@ -12,4 +12,12 @@ FROM Products
 WHERE LEN(ProductName) < 20;
 
 4.
+SELECT ProductName
+FROM Products
+ORDER BY LEN(ProductName), ProductName
 
+5.
+SELECT CONCAT(FirstName, ' ' , LastName) as FullName
+FROM Customers
+
+6.
