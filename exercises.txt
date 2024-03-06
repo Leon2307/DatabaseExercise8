@@ -21,3 +21,18 @@ SELECT CONCAT(FirstName, ' ' , LastName) as FullName
 FROM Customers
 
 6.
+SELECT SUM(LEN(CONCAT(FirstName, ' ' , LastName))) as FullName
+FROM Customers
+
+7.
+SELECT o.OrderId, SUM(p.Price) as TotalPrice
+FROM Orders o 
+JOIN OrderDetails od ON o.OrderId = od.OrderId 
+JOIN Products p ON od.ProductId = p.ProductId
+GROUP BY o.OrderId
+
+8.
+SELECT SUM(p.Price) as TotalPrice
+FROM Orders o 
+JOIN OrderDetails od ON o.OrderId = od.OrderId 
+JOIN Products p ON od.ProductId = p.ProductId
