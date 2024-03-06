@@ -68,3 +68,32 @@ GROUP BY o.OrderId
 HAVING SUM(p.Price) BETWEEN 100 AND 200
 
 13.
+CREATE VIEW EmployeeOrderTotals
+AS 
+SELECT 
+	e.StoreId,
+	e.EmployeeId, 
+	e.FirstName, 
+	e.LastName, 
+	COUNT(o.OrderId) as TotalOrders
+FROM 
+	Employee e
+	LEFT JOIN Orders o ON o.EmployeeId = e.EmployeeId
+GROUP BY e.EmployeeId, e.storeId, e.FirstName, e.LastName
+
+14.
+CREATE VIEW StoreSalesTotals
+AS
+SELECT 
+	s.StoreId,
+	s.StoreName,
+	SUM(p.Price) as TotalSales
+FROM 
+	Store s 
+	JOIN Employee e ON s.StoreId = e.StoreId
+	JOIN Orders o ON o.EmployeeId = e.EmployeeId
+	JOIN OrderDetails od ON o.OrderId = od.OrderId
+	JOIN Products p ON od.ProductId = p.ProductId
+GROUP BY s.StoreId, s.StoreName
+
+15.
