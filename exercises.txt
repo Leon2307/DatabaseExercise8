@@ -36,3 +36,16 @@ SELECT SUM(p.Price) as TotalPrice
 FROM Orders o 
 JOIN OrderDetails od ON o.OrderId = od.OrderId 
 JOIN Products p ON od.ProductId = p.ProductId
+
+9.
+SELECT OrderId, CustomerId, OrderDate, EmployeeId
+FROM Orders
+WHERE OrderDate BETWEEN '2023-10-03' AND '2024-01-31'
+
+10.
+SELECT p.ProductName
+FROM Products p
+JOIN (
+	SELECT MIN(Price) AS MinPrice
+	FROM Products
+	) AS MinPriceTable ON p.Price = MinPriceTable.MinPrice
