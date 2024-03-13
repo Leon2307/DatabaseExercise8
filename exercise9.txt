@@ -1,0 +1,8 @@
+SELECT name, price
+FROM Products
+WHERE price IN (
+	SELECT price
+	FROM Products
+	GROUP BY price
+	HAVING COUNT(*) = 1
+)
