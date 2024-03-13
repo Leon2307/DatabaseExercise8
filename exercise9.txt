@@ -1,98 +1,164 @@
-1.
-SELECT name
-FROM Products
-WHERE price IN (
-	SELECT price
-	FROM Products
-	GROUP BY price
-	HAVING COUNT(*) = 1
-)
+----------- Number  1.
+SELECT
+    name
+FROM
+    Products
+WHERE
+    price IN (
+        SELECT
+            price
+        FROM
+            Products
+        GROUP BY
+            price
+        HAVING
+            COUNT(*) = 1
+    );
 
-2.
-SELECT MIN(word) as word
-FROM Words
+;
 
-3.
-SELECT word
-FROM Words
-WHERE word NOT IN (
-	SELECT MIN(word)
-	FROM Words
-	)
+----------- Number  2.
+SELECT
+    MIN(word) as word
+FROM
+    Words;
 
-4.
-SELECT word
-FROM Words
-WHERE word LIKE '%i%'
+;
 
-5.
-SELECT word
-FROM Words
-WHERE word LIKE 'a%'
+----------- Number  3.
+SELECT
+    word
+FROM
+    Words
+WHERE
+    word NOT IN (
+        SELECT
+            MIN(word)
+        FROM
+            Words
+    );
 
-6.
-SELECT word
-FROM Words
-WHERE word LIKE '_p%' 
-AND LEN(word) = 5
+;
 
-7.
-SELECT word
-FROM Words
-WHERE LEN(word) - LEN(REPLACE(word, 'a', '')) = 2 
+----------- Number  4.
+SELECT
+    word
+FROM
+    Words
+WHERE
+    word LIKE '%i%';
 
-8.
-SELECT u.username, COUNT(m.user_id) as group_count
-FROM Users u LEFT JOIN Memberships m
-	ON u.id = m.user_id
-GROUP BY u.id, u.username 
-ORDER BY group_count, u.username
+;
 
-9.
-SELECT g.name, COUNT(m.user_id) as user_count
-FROM Groups g LEFT JOIN Memberships m
-	ON g.id = m.group_id
-GROUP BY g.name
+----------- Number  5.
+SELECT
+    word
+FROM
+    Words
+WHERE
+    word LIKE 'a%';
 
-10.
-SELECT u.username
-FROM Users u JOIN Memberships m
-	ON u.id = m.user_id
-GROUP BY u.id, u.username
-HAVING COUNT(*) > 1
+----------- Number  6.
+SELECT
+    word
+FROM
+    Words
+WHERE
+    word LIKE '_p%'
+    AND LEN (word) = 5;
 
-11.
-SELECT DISTINCT u.username
-FROM Users u 
-JOIN Memberships m ON u.id = m.user_id
-WHERE m.group_id IN
-(
-SELECT m.group_id
-FROM Users u JOIN Memberships m 
-	ON u.id = m.user_id
-WHERE u.username = 'uolevi'
-)
+----------- Number  7.
+SELECT
+    word
+FROM
+    Words
+WHERE
+    LEN (word) - LEN (REPLACE (word, 'a', '')) = 2;
 
-12.
-SELECT DISTINCT u.username
-FROM Users u 
-JOIN Memberships m ON u.id = m.user_id
-WHERE m.group_id NOT IN
-(
-SELECT m.group_id
-FROM Users u JOIN Memberships m 
-	ON u.id = m.user_id
-WHERE u.username = 'uolevi'
-)
+----------- Number  8.
+SELECT
+    u.username,
+    COUNT(m.user_id) as group_count
+FROM
+    Users u
+    LEFT JOIN Memberships m ON u.id = m.user_id
+GROUP BY
+    u.id,
+    u.username
+ORDER BY
+    group_count,
+    u.username;
 
-13.
-SELECT word
-FROM Words
-ORDER BY LOWER(word) ASC
+----------- Number  9.
+SELECT
+    g.name,
+    COUNT(m.user_id) as user_count
+FROM
+    Groups g
+    LEFT JOIN Memberships m ON g.id = m.group_id
+GROUP BY
+    g.name;
 
-14.
-SELECT TOP 1 name, price
-FROM Products
-ORDER BY price ASC, name ASC
+----------- Number  10.
+SELECT
+    u.username
+FROM
+    Users u
+    JOIN Memberships m ON u.id = m.user_id
+GROUP BY
+    u.id,
+    u.username
+HAVING
+    COUNT(*) > 1;
 
+----------- Number  11.
+SELECT DISTINCT
+    u.username
+FROM
+    Users u
+    JOIN Memberships m ON u.id = m.user_id
+WHERE
+    m.group_id IN (
+        SELECT
+            m.group_id
+        FROM
+            Users u
+            JOIN Memberships m ON u.id = m.user_id
+        WHERE
+            u.username = 'uolevi'
+    );
 
+----------- Number  12.
+SELECT DISTINCT
+    u.username
+FROM
+    Users u
+    JOIN Memberships m ON u.id = m.user_id
+WHERE
+    m.group_id NOT IN (
+        SELECT
+            m.group_id
+        FROM
+            Users u
+            JOIN Memberships m ON u.id = m.user_id
+        WHERE
+            u.username = 'uolevi'
+    );
+
+----------- Number  13.
+SELECT
+    word
+FROM
+    Words
+ORDER BY
+    LOWER(word) ASC;
+
+----------- Number  14.
+SELECT
+    TOP 1 name,
+    price
+FROM
+    Products
+ORDER BY
+    price ASC,
+    name ASC
