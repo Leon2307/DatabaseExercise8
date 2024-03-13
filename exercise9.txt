@@ -140,9 +140,10 @@ WHERE
             m.group_id
         FROM
             Users u
-            JOIN Memberships m ON u.id = m.user_id
+            LEFT JOIN Memberships m ON u.id = m.user_id
         WHERE
             u.username = 'uolevi'
+            OR m.group_id IS NULL
     );
 
 ----------- Number  13.
