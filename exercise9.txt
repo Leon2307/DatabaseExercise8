@@ -53,3 +53,46 @@ SELECT g.name, COUNT(m.user_id) as user_count
 FROM Groups g LEFT JOIN Memberships m
 	ON g.id = m.group_id
 GROUP BY g.name
+
+10.
+SELECT u.username
+FROM Users u JOIN Memberships m
+	ON u.id = m.user_id
+GROUP BY u.id, u.username
+HAVING COUNT(*) > 1
+
+11.
+SELECT DISTINCT u.username
+FROM Users u 
+JOIN Memberships m ON u.id = m.user_id
+WHERE m.group_id IN
+(
+SELECT m.group_id
+FROM Users u JOIN Memberships m 
+	ON u.id = m.user_id
+WHERE u.username = 'uolevi'
+)
+
+12.
+SELECT DISTINCT u.username
+FROM Users u 
+JOIN Memberships m ON u.id = m.user_id
+WHERE m.group_id NOT IN
+(
+SELECT m.group_id
+FROM Users u JOIN Memberships m 
+	ON u.id = m.user_id
+WHERE u.username = 'uolevi'
+)
+
+13.
+SELECT word
+FROM Words
+ORDER BY LOWER(word) ASC
+
+14.
+SELECT TOP 1 name, price
+FROM Products
+ORDER BY price ASC, name ASC
+
+
