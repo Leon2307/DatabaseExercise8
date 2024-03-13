@@ -26,3 +26,30 @@ FROM Words
 WHERE word LIKE '%i%'
 
 5.
+SELECT word
+FROM Words
+WHERE word LIKE 'a%'
+
+6.
+SELECT word
+FROM Words
+WHERE word LIKE '_p%' 
+AND LEN(word) = 5
+
+7.
+SELECT word
+FROM Words
+WHERE LEN(word) - LEN(REPLACE(word, 'a', '')) = 2 
+
+8.
+SELECT u.username, COUNT(m.user_id) as group_count
+FROM Users u LEFT JOIN Memberships m
+	ON u.id = m.user_id
+GROUP BY u.id, u.username 
+ORDER BY group_count, u.username
+
+9.
+SELECT g.name, COUNT(m.user_id) as user_count
+FROM Groups g LEFT JOIN Memberships m
+	ON g.id = m.group_id
+GROUP BY g.name
