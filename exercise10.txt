@@ -1,47 +1,103 @@
 -- 1.
-SELECT a.price, b.price, a.id, b.id
-FROM Products a, Products b
-WHERE a.price + b.price = 10
-AND a.id <= b.id
+SELECT
+    a.price,
+    b.price,
+    a.id,
+    b.id
+FROM
+    Products a,
+    Products b
+WHERE
+    a.price + b.price = 10
+    AND a.id <= b.id;
 
 --2
-SELECT MIN(ABS(a.price-b.price)) as smalles_difference
-FROM Products a, Products b
-WHERE a.price <> b.price
+SELECT
+    MIN(ABS(a.price - b.price)) as smalles_difference
+FROM
+    Products a,
+    Products b
+WHERE
+    a.price <> b.price;
 
 --3
-SELECT a.owner, COALESCE(SUM(t.change),0) as balance
-FROM Accounts a 
-LEFT JOIN Transactions t ON a.id = t.account_id
-GROUP BY a.id, a.owner
+SELECT
+    a.owner,
+    COALESCE(SUM(t.change), 0) as balance
+FROM
+    Accounts a
+    LEFT JOIN Transactions t ON a.id = t.account_id
+GROUP BY
+    a.id,
+    a.owner;
 
 --4
-SELECT SUM(t.change) OVER (ORDER BY t.id) as running_balance
-FROM Transactions t, Accounts a
-WHERE t.account_id = a.id
-AND a.owner = 'Uolevi'
+SELECT
+    SUM(t.change) OVER (
+        ORDER BY
+            t.id
+    ) as running_balance
+FROM
+    Transactions t,
+    Accounts a
+WHERE
+    t.account_id = a.id
+    AND a.owner = 'Uolevi';
 
 --5
-SELECT a.owner, MAX(COALESCE(bh.running_balance,0)) as largest_amount
-FROM (SELECT t.account_id, SUM(t.change) OVER (PARTITION BY t.account_id ORDER BY t.id) as running_balance
-		FROM Transactions t) as bh
-RIGHT JOIN Accounts a ON bh.account_id = a.id
-GROUP BY bh.account_id, a.owner
+SELECT
+    a.owner,
+    MAX(COALESCE(bh.running_balance, 0)) as largest_amount
+FROM
+    (
+        SELECT
+            t.account_id,
+            SUM(t.change) OVER (
+                PARTITION BY
+                    t.account_id
+                ORDER BY
+                    t.id
+            ) as running_balance
+        FROM
+            Transactions t
+    ) as bh
+    RIGHT JOIN Accounts a ON bh.account_id = a.id
+GROUP BY
+    bh.account_id,
+    a.owner;
 
 --6
-SELECT s.name, COUNT(DISTINCT t.exercise_id) as correct_exercises
-FROM Students s 
-LEFT JOIN Transmissions t ON s.id = t.student_id
-AND t.state = 1
-GROUP BY s.id, s.name
-ORDER BY correct_exercises ASC
+SELECT
+    s.name,
+    COUNT(DISTINCT t.exercise_id) as correct_exercises
+FROM
+    Students s
+    LEFT JOIN Transmissions t ON s.id = t.student_id
+    AND t.state = 1
+GROUP BY
+    s.id,
+    s.name
+ORDER BY
+    correct_exercises ASC;
 
 --7
-WITH Submissions AS (
-SELECT s.name, ISNULL(COUNT(t.id),0) AS number_of_transmissions
-FROM Students s
-LEFT JOIN Transmissions t ON s.id = t.student_id
-GROUP BY s.id, s.name, t.exercise_id)
-SELECT name, MAX(number_of_transmissions)
-FROM Submissions
-GROUP BY name
+WITH
+    Submissions AS (
+        SELECT
+            s.name,
+            ISNULL (COUNT(t.id), 0) AS number_of_transmissions
+        FROM
+            Students s
+            LEFT JOIN Transmissions t ON s.id = t.student_id
+        GROUP BY
+            s.id,
+            s.name,
+            t.exercise_id
+    )
+SELECT
+    name,
+    MAX(number_of_transmissions)
+FROM
+    Submissions
+GROUP BY
+    name;
