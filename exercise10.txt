@@ -29,3 +29,19 @@ RIGHT JOIN Accounts a ON bh.account_id = a.id
 GROUP BY bh.account_id, a.owner
 
 --6
+SELECT s.name, COUNT(DISTINCT t.exercise_id) as correct_exercises
+FROM Students s 
+LEFT JOIN Transmissions t ON s.id = t.student_id
+AND t.state = 1
+GROUP BY s.id, s.name
+ORDER BY correct_exercises ASC
+
+--7
+WITH Submissions AS (
+SELECT s.name, ISNULL(COUNT(t.id),0) AS number_of_transmissions
+FROM Students s
+LEFT JOIN Transmissions t ON s.id = t.student_id
+GROUP BY s.id, s.name, t.exercise_id)
+SELECT name, MAX(number_of_transmissions)
+FROM Submissions
+GROUP BY name
