@@ -16,3 +16,16 @@ LEFT JOIN Transactions t ON a.id = t.account_id
 GROUP BY a.id, a.owner
 
 --4
+SELECT SUM(t.change) OVER (ORDER BY t.id) as running_balance
+FROM Transactions t, Accounts a
+WHERE t.account_id = a.id
+AND a.owner = 'Uolevi'
+
+--5
+SELECT a.owner, MAX(COALESCE(bh.running_balance,0)) as largest_amount
+FROM (SELECT t.account_id, SUM(t.change) OVER (PARTITION BY t.account_id ORDER BY t.id) as running_balance
+		FROM Transactions t) as bh
+RIGHT JOIN Accounts a ON bh.account_id = a.id
+GROUP BY bh.account_id, a.owner
+
+--6
